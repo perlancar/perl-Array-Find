@@ -118,7 +118,7 @@ also match 'ap' with 'ap', 'apple', and 'apricot'. Suffix matching will match
 'ap', 'clap', or 'apple'. Regex will regard item as a regex and perform a regex
 match on each element of array.
 
-See also 'word_sep' which affects prefix/prefix/infix matching.
+See also 'word_sep' which affects prefix/suffix/infix matching.
 _
         }],
         word_sep         => ['str' => {
