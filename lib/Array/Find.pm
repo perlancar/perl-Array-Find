@@ -320,7 +320,7 @@ This module's subroutines follow L<Sub::Spec> convention, which explains the
 rather weird [STATUSCODE, ERRMSG, DATA] return value. Sub::Spec allows your
 subroutines to be straightforwardly accessed via HTTP REST API and command-line
 (complete with options parsing, help message, and bash completion), as well as
-other features.
+provide other features.
 
 
 =head1 FUNCTIONS
