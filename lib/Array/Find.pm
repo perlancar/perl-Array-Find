@@ -106,8 +106,10 @@ _
             summary      => "Set case insensitive",
         }],
         mode             => ['str' => {
-            in           => ['exact', 'prefix', 'suffix', 'prefix|suffix',
-                             'infix', 'regex'],
+            in           => ['exact', 'prefix', 'suffix', 'infix',
+                             'prefix|infix', 'prefix|suffix',
+                             'prefix|infix|suffix', 'infix|suffix',
+                             'regex'],
             default      => 'exact',
             summary      => "Comparison mode",
             description  => <<'_',
@@ -158,6 +160,9 @@ sub find_in_array {
 
     my $ci          = $args{ci};
     my $mode        = $args{mode} // 'exact';
+    my $mode_prefix = $mode =~ /prefix/;
+    my $mode_infix  = $mode =~ /infix/;
+    my $mode_suffix = $mode =~ /suffix/;
     my $ws          = $args{word_sep} // $args{ws};
     $ws             = undef if defined($ws) && $ws eq '';
     $ws             = lc($ws) if defined($ws) && $ci;
@@ -201,7 +206,7 @@ sub find_in_array {
                 } else {
                     my $el_len = length($el);
 
-                    if ($mode eq 'prefix' || $mode eq "prefix|suffix") {
+                    if ($mode_prefix) {
                         my $idx = index($el, $item);
                         if (defined($ws)) {
                             $match ||=
@@ -217,8 +222,23 @@ sub find_in_array {
                         }
                     }
 
-                    if ($mode eq 'suffix' || $mode eq "prefix|suffix"
-                            && !$match) {
+                    if ($mode_infix && !$match) {
+                        my $idx = index($el, $item);
+                        if (defined($ws)) {
+                            $match ||=
+                                # right side matches ws
+                                index($el, $ws, $item_len+$idx) ==
+                                    $item_len+$idx &&
+                                # left-side matches ws
+                                 $idx >= $ws_len &&
+                                     index($el, $ws, $idx-$ws_len) ==
+                                         $idx-$ws_len;
+                        } else {
+                            $match ||= ($idx > 0 && $idx < $el_len-$item_len);
+                        }
+                    }
+
+                    if ($mode_suffix && !$match) {
                         my $idx = rindex($el, $item);
                         if (defined($ws)) {
                             $match ||=
@@ -232,22 +252,6 @@ sub find_in_array {
                                          $idx-$ws_len);
                         } else {
                             $match ||= $idx == $el_len-$item_len;
-                        }
-                    }
-
-                    if ($mode eq 'infix' && !$match) {
-                        my $idx = index($el, $item);
-                        if (defined($ws)) {
-                            $match ||=
-                                # right side matches ws
-                                index($el, $ws, $item_len+$idx) ==
-                                    $item_len+$idx &&
-                                # left-side matches ws
-                                 $idx >= $ws_len &&
-                                     index($el, $ws, $idx-$ws_len) ==
-                                         $idx-$ws_len;
-                        } else {
-                            $match ||= ($idx > 0 && $idx < $el_len-$item_len);
                         }
                     }
                 }

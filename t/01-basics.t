@@ -106,10 +106,22 @@ test_find(
     result => [qw/a.b a.b. a.b.c/],
 );
 test_find(
+    name   => 'word_sep, infix',
+    args   => {item=>"a.b", mode=>"infix", word_sep=>'.',
+               array=>$awords},
+    result => [qw/.a.b. .a.b.c c.a.b. c.a.b.c/],
+);
+test_find(
     name   => 'word_sep, suffix',
     args   => {item=>"a.b", mode=>"suffix", word_sep=>'.',
                array=>$awords},
     result => [qw/a.b .a.b c.a.b/],
+);
+test_find(
+    name   => 'word_sep, prefix|infix',
+    args   => {item=>"a.b", mode=>"prefix|infix", word_sep=>'.',
+               array=>$awords},
+    result => [qw/a.b a.b. .a.b. a.b.c .a.b.c c.a.b. c.a.b.c/],
 );
 test_find(
     name   => 'word_sep, prefix|suffix',
@@ -118,10 +130,17 @@ test_find(
     result => [qw/a.b .a.b a.b. a.b.c c.a.b/],
 );
 test_find(
-    name   => 'word_sep, infix',
-    args   => {item=>"a.b", mode=>"infix", word_sep=>'.',
+    name   => 'word_sep, prefix|infix|suffix',
+    args   => {item=>"a.b", mode=>"prefix|infix|suffix", word_sep=>'.',
                array=>$awords},
-    result => [qw/.a.b. .a.b.c c.a.b. c.a.b.c/],
+    result => [qw/a.b .a.b a.b. .a.b. a.b.c .a.b.c c.a.b c.a.b.
+                  c.a.b.c/],
+);
+test_find(
+    name   => 'word_sep, infix|suffix',
+    args   => {item=>"a.b", mode=>"infix|suffix", word_sep=>'.',
+               array=>$awords},
+    result => [qw/a.b .a.b .a.b. .a.b.c c.a.b c.a.b. c.a.b.c/],
 );
 
 test_find(

@@ -1,5 +1,11 @@
 Revision history for Array-Find
 
+0.02    2011-02-19
+
+        All modes 'prefix', 'infix', 'suffix' can be or-combined (e.g.
+        'prefix|infix', 'prefix|infix|suffix').
+
+
 0.01    2011-02-18
 
         First release.
