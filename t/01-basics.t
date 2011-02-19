@@ -39,6 +39,11 @@ test_find(
     args   => {item=>"a", mode=>"suffix", array=>[qw/a aa b ba c a a cb/]},
     result => [qw/a aa ba a a/],
 );
+test_find( # bug in v0.02, didn't check index() > -1 first
+    name   => 'suffix mode (long item)',
+    args   => {item=>"aa", mode=>"suffix", array=>[qw/a aa aaa aaaa/]},
+    result => [qw/aa aaa aaaa/],
+);
 test_find(
     name   => 'prefix|suffix mode',
     args   => {item=>"a", mode=>"prefix|suffix", array=>[qw/a b ba ab bab/]},
@@ -48,6 +53,11 @@ test_find(
     name   => 'infix mode',
     args   => {item=>"a", mode=>"infix", array=>[qw/a b ba ab bab/]},
     result => [qw/bab/],
+);
+test_find( # bug in v0.02, we need to do index() + rindex()
+    name   => 'infix mode (item matches at the start/end)',
+    args   => {item=>"aa", mode=>"infix", array=>[qw/a aa aaa aaaa/]},
+    result => [qw/aaaa/],
 );
 
 test_find(

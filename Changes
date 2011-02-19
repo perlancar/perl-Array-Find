@@ -1,5 +1,10 @@
 Revision history for Array-Find
 
+0.03    2011-02-19
+
+        Fix a couple of bugs in infix and suffix matching.
+
+
 0.02    2011-02-19
 
         All modes 'prefix', 'infix', 'suffix' can be or-combined (e.g.
