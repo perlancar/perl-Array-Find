@@ -237,7 +237,6 @@ sub find_in_array {
                                        index($el, $ws, $idx-$ws_len) ==
                                            $idx-$ws_len;
                             } else {
-                                print "D:idx=$idx, el_len=$el_len, item_len=$item_len\n";
                                 $match ||= $idx > 0 && $idx < $el_len-$item_len;
                                 if (!$match) {
                                     if ($idx == 0) {
