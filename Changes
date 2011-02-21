@@ -1,5 +1,10 @@
 Revision history for Array-Find
 
+0.04    2011-02-21
+
+        Remove debugging statement, require newer version of Test::More.
+
+
 0.03    2011-02-19
 
         Fix a couple of bugs in infix and suffix matching.
