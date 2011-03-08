@@ -1,5 +1,12 @@
 Revision history for Array-Find
 
+0.05    2011-03-08
+
+        [INCOMPATIBLE CHANGES]
+
+        Now only return result instead of [status, errmsg, result].
+
+
 0.04    2011-02-21
 
         Remove debugging statement, require newer version of Test::More.
