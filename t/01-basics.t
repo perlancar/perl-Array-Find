@@ -227,9 +227,7 @@ sub test_find {
     my $find_args = $args{args};
 
     subtest $name => sub {
-        my $resp = find_in_array(%$find_args);
-        is($resp->[0], 200, "find success");
-        my $res = $resp->[2];
+        my $res = find_in_array(%$find_args);
         if ($args{result}) {
             is_deeply($res, $args{result}, "result") or diag(explain($res));
         }
@@ -241,8 +239,7 @@ sub test_find {
             my $seen_shuffled;
           R:
             for (1..$num_repeat) {
-                my $resp2 = find_in_array(%$find_args);
-                my $res2  = $resp2->[2];
+                my $res2 = find_in_array(%$find_args);
                 for (0..@$res2-1) {
                     if ($res->[$_] ne $res2->[$_]) {
                         $seen_shuffled++;

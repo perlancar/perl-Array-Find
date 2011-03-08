@@ -142,9 +142,8 @@ _
         shuffle          => ['bool' => {
             summary      => "Shuffle result",
         }],
-
-
     },
+    result_naked => 1,
 };
 sub find_in_array {
     my %args = @_;
@@ -303,7 +302,7 @@ sub find_in_array {
         @res = shuffle(@res);
     }
 
-    [200, "OK", \@res];
+    \@res;
 }
 
 1;
@@ -314,14 +313,11 @@ __END__
  use Array::Find qw(find_in_array);
  use Data::Dump;
 
- # returns [STATUSCODE, ERRMSG, DATA]
- my $res = find_in_array(
+ dd find_in_array(
      items      => [qw/a x/],
      array      => [qw/a b d a y x/],
      max_result => 2,
- );
- die $res->[1] if $res->[1] != 200;
- dd $res->[2]; # ['a', 'a']
+ ); # ['a', 'a']
 
  # find by prefix (or suffix, with/without word separator), in multiple arrays
  dd find_in_array(
@@ -332,18 +328,16 @@ __END__
          [qw/a a.b. a.b a.bb/],
          [qw/a.b.c b.c.d/],
      ],
- )->[2]; # ['a.b.', 'a.b', 'a.b.c']
+ ); # ['a.b.', 'a.b', 'a.b.c']
 
 
 =head1 DESCRIPTION
 
 This module provides one subroutine: C<find_in_array> to find items in array.
 
-This module's subroutines follow L<Sub::Spec> convention, which explains the
-rather weird [STATUSCODE, ERRMSG, DATA] return value. Sub::Spec allows your
-subroutines to be straightforwardly accessed via HTTP REST API and command-line
-(complete with options parsing, help message, and bash completion), as well as
-provide other features.
+This module uses L<Sub::Spec> framework, which means you can switch from named
+arguments to positional, apply execution time limits, run the subroutine from
+the command line, etc. Refer to Sub::Spec documentation for more details.
 
 
 =head1 FUNCTIONS
