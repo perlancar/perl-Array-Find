@@ -11,9 +11,9 @@ require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(find_in_array);
 
-our %SUBS;
+our %SPEC;
 
-$SUBS{find_in_array} = {
+$SPEC{find_in_array} = {
     summary       => 'Find items in array, with several options',
     description   => <<'_',
 
