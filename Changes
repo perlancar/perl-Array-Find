@@ -1,5 +1,12 @@
 Revision history for Array-Find
 
+0.06    2011-09-15
+
+        [ENHANCEMENTS]
+
+        - Add 'unique' option.
+
+
 0.05    2011-03-08
 
         [INCOMPATIBLE CHANGES]
