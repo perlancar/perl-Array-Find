@@ -339,6 +339,7 @@ __END__
      items      => [qw/a x/],
      array      => [qw/a b d a y x/],
      max_result => 2,
+     unique     => 1,
  ); # ['a', 'x']
 
  # find by prefix (or suffix, with/without word separator), in multiple arrays
