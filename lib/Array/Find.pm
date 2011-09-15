@@ -334,6 +334,13 @@ __END__
      max_result => 2,
  ); # ['a', 'a']
 
+ # return unique results
+ dd find_in_array(
+     items      => [qw/a x/],
+     array      => [qw/a b d a y x/],
+     max_result => 2,
+ ); # ['a', 'x']
+
  # find by prefix (or suffix, with/without word separator), in multiple arrays
  dd find_in_array(
      item       => 'a.b',
