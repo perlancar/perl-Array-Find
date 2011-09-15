@@ -139,6 +139,15 @@ not 'ca.b'). Infix matching will match 'c.a.b.c' and won't match 'a.b',
 
 _
         }],
+        unique           => ['bool' => {
+            summary      => "Whether to return only unique results",
+            arg_aliases  => {
+                u => {},
+            },
+            description  => <<'_',
+If set to true, results will not contain duplicate items.
+_
+        }],
         shuffle          => ['bool' => {
             summary      => "Shuffle result",
         }],
@@ -170,10 +179,13 @@ sub find_in_array {
     my $max_result  = $args{max_result};
     my $max_compare = $args{max_compare};
 
+    my $unique      = $args{unique} // 0;
+
     my $num_compare;
     my %found_items; # for tracking which items have been found, for -max_result
     my @matched_els; # to avoid matching the same array element with multi items
     my @res;
+    my %res;  # for unique
 
   FIND:
     for my $i (0..$#items) {
@@ -275,7 +287,10 @@ sub find_in_array {
                 }
 
                 if ($match) {
-                    push @res, $el0;
+                    unless ($unique && $res{$el}) {
+                        push @res, $el0;
+                    }
+                    $res{$el} = 1 if $unique;
                     $matched_els[$ia] //= [];
                     $matched_els[$ia][$iel] = 1;
                 }

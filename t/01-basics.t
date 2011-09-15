@@ -14,8 +14,19 @@ test_find(
     result => [qw/a a/],
 );
 test_find(
+    name   => 'unique 1 (exact find)',
+    args   => {item=>"a", array=>[qw/a aa b ba c a cb/], unique=>1},
+    result => [qw/a/],
+);
+test_find(
     name   => 'max_result',
     args   => {item=>"a", max_result=>1, array=>[qw/a aa b ba c a a cb/]},
+    result => [qw/a/],
+);
+test_find(
+    name   => 'unique 2 (max_result)',
+    args   => {items=>["a", "b"], unique=>1, max_result=>1,
+               array=>[qw/a aa b ba c a b/]},
     result => [qw/a/],
 );
 test_find(
@@ -24,15 +35,33 @@ test_find(
     result => [qw/a a a b/],
 );
 test_find(
+    name   => 'unique 3 (negative max_result)',
+    args   => {items=>[qw/a b c/], unique=>1, max_result=>-2,
+               array=>[qw/a a d b a b c/]},
+    result => [qw/a b/],
+);
+test_find(
     name   => 'max_compare',
     args   => {item=>"a", max_compare=>6, array=>[qw/a aa b ba c a a cb/]},
     result => [qw/a a/],
+);
+test_find(
+    name   => 'unique 4 (max_compare)',
+    args   => {item=>"a", unique=>1, max_compare=>6,
+               array=>[qw/a aa b ba c a a cb/]},
+    result => [qw/a/],
 );
 
 test_find(
     name   => 'prefix mode',
     args   => {item=>"a", mode=>"prefix", array=>[qw/a aa b ba c a a cb/]},
     result => [qw/a aa a a/],
+);
+test_find(
+    name   => 'unique 5 (prefix mode)',
+    args   => {item=>"a", unique=>1, mode=>"prefix",
+               array=>[qw/a aa b ba c a a cb/]},
+    result => [qw/a aa/],
 );
 test_find(
     name   => 'suffix mode',
