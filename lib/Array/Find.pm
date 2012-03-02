@@ -1,5 +1,4 @@
 package Array::Find;
-# ABSTRACT: Find items in array, with several options
 
 use 5.010;
 use strict;
@@ -10,6 +9,8 @@ use List::Util qw(shuffle);
 require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(find_in_array);
+
+# VERSION
 
 our %SPEC;
 
@@ -321,7 +322,7 @@ sub find_in_array {
 }
 
 1;
-__END__
+# ABSTRACT: Find items in array, with several options
 
 =head1 SYNOPSIS
 
@@ -358,9 +359,7 @@ __END__
 
 This module provides one subroutine: C<find_in_array> to find items in array.
 
-This module uses L<Sub::Spec> framework, which means you can switch from named
-arguments to positional, apply execution time limits, run the subroutine from
-the command line, etc. Refer to Sub::Spec documentation for more details.
+This module has L<Rinci> metadata.
 
 
 =head1 FUNCTIONS
@@ -371,8 +370,6 @@ None of the functions are exported by default, but they are exportable.
 =head1 SEE ALSO
 
 L<List::Util>, L<List::MoreUtils>
-
-L<Sub::Spec>
 
 =cut
 
