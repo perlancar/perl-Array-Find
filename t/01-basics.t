@@ -4,7 +4,7 @@ use 5.010;
 use strict;
 use warnings;
 
-use Test::More 0.96;
+use Test::More 0.98;
 
 use Array::Find qw(find_in_array);
 
@@ -281,4 +281,3 @@ sub test_find {
         }
     };
 }
-

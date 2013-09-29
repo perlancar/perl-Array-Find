@@ -1,6 +1,6 @@
 package Array::Find;
 
-use 5.010;
+use 5.010001;
 use strict;
 use warnings;
 
@@ -372,4 +372,3 @@ None of the functions are exported by default, but they are exportable.
 L<List::Util>, L<List::MoreUtils>
 
 =cut
-
