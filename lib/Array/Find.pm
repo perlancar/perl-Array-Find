@@ -1,5 +1,8 @@
 package Array::Find;
 
+# DATE
+# VERSION
+
 use 5.010001;
 use strict;
 use warnings;
@@ -9,8 +12,6 @@ use List::Util qw(shuffle);
 require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(find_in_array);
-
-# VERSION
 
 our %SPEC;
 
@@ -322,7 +323,7 @@ sub find_in_array {
 }
 
 1;
-# ABSTRACT: Find items in array, with several options
+# ABSTRACT:
 
 =head1 SYNOPSIS
 
