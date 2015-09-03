@@ -16,6 +16,7 @@ our @EXPORT_OK = qw(find_in_array);
 our %SPEC;
 
 $SPEC{find_in_array} = {
+    v => 1.1,
     summary       => 'Find items in array, with several options',
     description   => <<'_',
 
@@ -30,7 +31,7 @@ work with scalars and compare things asciibetically.
 
 _
     args          => {
-        item             => ['str' => {
+        item             => {
             summary      => 'Item to find',
             description  => <<'_',
 
@@ -38,9 +39,10 @@ Currently can only be scalar. See also 'items' if you want to find several items
 at once.
 
 _
-            arg_pos      => 0,
-        }],
-        array            => ['array' => {
+            schema       => ['str*'],
+            pos          => 0,
+        },
+        array            => {
             summary      => 'Array to find items in',
             description  => <<'_',
 
@@ -48,10 +50,10 @@ See also 'arrays' if you want to find in several arrays. Array elements can be
 undef and will only match undef.
 
 _
-            arg_pos      => 1,
-        }],
-        items            => ['array' => {
-            of           => 'str',
+            schema       => ['array*' => of=>'str*'],
+            pos          => 1,
+        },
+        items            => {
             summary      => "Just like 'item', except several",
             description  => <<'_',
 
@@ -62,9 +64,9 @@ Example: find_in_array(items => ["a", "b"], array => ["b", "a", "c", "a"]) will
 return result ["b", "a", "a"].
 
 _
-        }],
-        arrays            => ['array' => {
-            of           => 'array', # XXX ['array*'=>{of=>'str'}]
+            schema       => ['array*' => of => 'str*'],
+        },
+        arrays            => {
             summary      => "Just like 'array', except several",
             description  => <<'_',
 
@@ -74,8 +76,9 @@ Example: find_in_array(item => "a", arrays => [["b", "a"], ["c", "a"]]) will
 return result ["a", "a"].
 
 _
-        }],
-        max_result       => ['int' => {
+            schema       => ['array*' => of=>['array*', of=>'str*']],
+        },
+        max_result       => {
             summary      => "Set maximum number of results",
             description  => <<'_',
 
@@ -91,8 +94,9 @@ array=>['a', 'b', 'a', 'a'], max_result=>2) will return result ['a', 'a'].
  found it will stop.
 
 _
-        }],
-        max_compare      => ['int' => {
+            schema       => ['int*', min=>1],
+        },
+        max_compare      => {
             summary      => "Set maximum number of comparison",
             description  => <<'_',
 
@@ -102,17 +106,14 @@ find(item=>'a', array=>['q', 'w', 'e', 'a'], max_compare=>3) will not return
 result.
 
 _
-        }],
-        ci               => ['bool' => {
-            default      => 0,
+            schema       => ['int*' => min=>1],
+        },
+        ci               => {
             summary      => "Set case insensitive",
-        }],
-        mode             => ['str' => {
-            in           => ['exact', 'prefix', 'suffix', 'infix',
-                             'prefix|infix', 'prefix|suffix',
-                             'prefix|infix|suffix', 'infix|suffix',
-                             'regex'],
-            default      => 'exact',
+            schema       => 'bool',
+            default      => 0,
+        },
+        mode             => {
             summary      => "Comparison mode",
             description  => <<'_',
 
@@ -124,12 +125,16 @@ match on each element of array.
 
 See also 'word_sep' which affects prefix/suffix/infix matching.
 _
-        }],
-        word_sep         => ['str' => {
+            schema       => ['str' => in => [
+                'exact', 'prefix', 'suffix', 'infix',
+                'prefix|infix', 'prefix|suffix',
+                'prefix|infix|suffix', 'infix|suffix',
+                'regex',
+            ]],
+            default      => 'exact',
+        },
+        word_sep         => {
             summary      => "Define word separator",
-            arg_aliases  => {
-                ws => {},
-            },
             description  => <<'_',
 
 If set, item and array element will be regarded as a separated words. This will
@@ -140,19 +145,24 @@ not 'ca.b'). Infix matching will match 'c.a.b.c' and won't match 'a.b',
 'a.b.c', or 'c.a.b'.
 
 _
-        }],
-        unique           => ['bool' => {
+            schema       => 'str*',
+            cmdline_aliases  => {ws => {}},
+        },
+        unique           => {
             summary      => "Whether to return only unique results",
-            arg_aliases  => {
-                u => {},
-            },
+            schema       => ['bool'],
+            cmdline_aliases  => { u => {} },
             description  => <<'_',
 If set to true, results will not contain duplicate items.
 _
-        }],
-        shuffle          => ['bool' => {
+        },
+        shuffle          => {
             summary      => "Shuffle result",
-        }],
+            schema       => 'bool',
+        },
+    },
+    args_rels => {
+        'req_one&' => [['item', 'items'], ['array', 'arrays']],
     },
     result_naked => 1,
 };
@@ -359,13 +369,6 @@ sub find_in_array {
 =head1 DESCRIPTION
 
 This module provides one subroutine: C<find_in_array> to find items in array.
-
-This module has L<Rinci> metadata.
-
-
-=head1 FUNCTIONS
-
-None of the functions are exported by default, but they are exportable.
 
 
 =head1 SEE ALSO
